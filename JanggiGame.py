@@ -197,9 +197,9 @@ class General(Piece):
                 return False
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
                 return False
-            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
+            elif (end_y == start_y) and (abs(end_x - start_x) == 1):
                 return True
-            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (end_x == start_x) and (abs(end_y - start_y) == 1):
                 return True
             elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
@@ -212,9 +212,9 @@ class General(Piece):
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
                 print("false 2")
                 return False
-            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
+            elif (end_y == start_y) and (abs(end_x - start_x) == 1):
                 return True
-            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (end_x == start_x) and (abs(end_y - start_y) == 1):
                 return True
             elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
@@ -238,9 +238,9 @@ class Guard(Piece):
                 return False
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
                 return False
-            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
+            elif (end_y == start_y) and (abs(end_x - start_x) == 1):
                 return True
-            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (end_x == start_x) and (abs(end_y - start_y) == 1):
                 return True
             elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
@@ -248,16 +248,21 @@ class Guard(Piece):
                 return False
         elif self.get_color() == "red":
             if end_y == (3 or 4 or 5 or 6 or 7 or 8 or 9):
+                print("false 1")
                 return False
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+                print("false 2")
                 return False
-            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
+            elif (end_y == start_y) and (abs(end_x - start_x) == 1):
                 return True
-            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (end_x == start_x) and (abs(end_y - start_y) == 1):
                 return True
             elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
             else:
+                print(start_x, end_x)
+                print(start_y, end_y)
+                print("false 3")
                 return False
 
 
@@ -339,3 +344,16 @@ class Soldier(Piece):  # TODO - This works
                 return False
 
 
+game = JanggiGame()
+game.print_board()
+print("\n\nstarting^^^")
+
+print(game.make_move("e9", "f8"))
+
+print(game.make_move("e2", "f3"))
+
+print(game.make_move("f8", "e8"))
+
+print(game.make_move("f3", "e3"))
+
+game.print_board()

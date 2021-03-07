@@ -2,7 +2,7 @@
 # 3/1/2021
 # This program... #TODO
 
-from colorama import Fore  # TODO remove color printing before turned in
+# from colorama import Fore  # TODO remove color printing before turned in
 
 
 class JanggiGame:

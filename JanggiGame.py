@@ -39,7 +39,7 @@ class JanggiGame:
         if len(start_pos) == 2:
             start_y = int(start_pos[1]) - 1
         if len(dest_pos) == 3:
-            dest_y = int(dest_pos[1] + dest_pos[2])
+            dest_y = int(dest_pos[1] + dest_pos[2]) - 1
         if len(dest_pos) == 2:
             dest_y = int(dest_pos[1]) - 1
 
@@ -190,7 +190,28 @@ class General(Piece):
 
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
-        pass
+        if self.get_color() == "blue":
+            if end_y == (0 or 1 or 2 or 3 or 4 or 5 or 6):
+                return False
+            elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+                return False
+            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+                return True
+            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+                return True
+            else:
+                return False
+        elif self.get_color() == "red":
+            if end_y == (3 or 4 or 5 or 6 or 7 or 8 or 9):
+                return False
+            elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+                return False
+            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+                return True
+            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+                return True
+            else:
+                return False
 
 
 class Guard(Piece):
@@ -201,7 +222,28 @@ class Guard(Piece):
 
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
-        pass
+        if self.get_color() == "blue":
+            if end_y == (0 or 1 or 2 or 3 or 4 or 5 or 6):
+                return False
+            elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+                return False
+            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+                return True
+            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+                return True
+            else:
+                return False
+        elif self.get_color() == "red":
+            if end_y == (3 or 4 or 5 or 6 or 7 or 8 or 9):
+                return False
+            elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+                return False
+            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+                return True
+            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+                return True
+            else:
+                return False
 
 
 class Horse(Piece):
@@ -248,7 +290,7 @@ class Cannon(Piece):
         pass
 
 
-class Soldier(Piece):
+class Soldier(Piece):  # TODO - This works
     """Represents a Soldier piece, inherits from Piece class"""
 
     def __init__(self, color, ID):

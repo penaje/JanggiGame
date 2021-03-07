@@ -197,9 +197,13 @@ class General(Piece):
                 return False
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
                 return False
-            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
                 return True
-            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
+                return True
+            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
+                return True
+            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
             else:
                 return False
@@ -211,6 +215,10 @@ class General(Piece):
             elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
                 return True
             elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+                return True
+            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
+                return True
+            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
             else:
                 return False
@@ -229,9 +237,13 @@ class Guard(Piece):
                 return False
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
                 return False
-            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
                 return True
-            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
+                return True
+            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
+                return True
+            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
             else:
                 return False
@@ -243,6 +255,10 @@ class Guard(Piece):
             elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
                 return True
             elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+                return True
+            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
+                return True
+            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
             else:
                 return False

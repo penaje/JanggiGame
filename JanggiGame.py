@@ -192,10 +192,18 @@ class General(Piece):
 
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
+        blue_y_invalid = [0, 1, 2, 3, 4, 5, 6]
+        red_y_invalid = [3, 4, 5, 6, 7, 8, 9]
+        x_invalid = [0, 1, 2, 6, 7, 8]
+
         if self.get_color() == "blue":
-            if end_y == (0 or 1 or 2 or 3 or 4 or 5 or 6):
+            if end_y in blue_y_invalid:
+                print("false 1")
+                print(start_x, end_x)
+                print(start_y, end_y)
                 return False
-            elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+            elif end_x in x_invalid:
+                print("false 2")
                 return False
             elif (end_y == start_y) and (abs(end_x - start_x) == 1):
                 return True
@@ -204,12 +212,13 @@ class General(Piece):
             elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
             else:
+                print("false 3")
                 return False
         elif self.get_color() == "red":
-            if end_y == (3 or 4 or 5 or 6 or 7 or 8 or 9):
+            if end_y in red_y_invalid:
                 print("false 1")
                 return False
-            elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+            elif end_x in x_invalid:
                 print("false 2")
                 return False
             elif (end_y == start_y) and (abs(end_x - start_x) == 1):
@@ -342,5 +351,6 @@ class Soldier(Piece):  # TODO - This works
                 return True
             else:
                 return False
+
 
 

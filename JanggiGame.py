@@ -2,14 +2,14 @@
 # 3/1/2021
 # This program... #TODO
 
-from colorama import Fore  # TODO remove color printing
+from colorama import Fore  # TODO remove color printing before turned in
 
 
 class JanggiGame:
-    """Represents a Janggi Game"""
+    """Represents a Janggi Game and all of its pieces"""
 
     def __init__(self):
-        self._turn = "red"
+        self._turn = "blue"
         self._game_state = 'UNFINISHED'
         self._game_board = GameBoard()
 
@@ -18,12 +18,14 @@ class JanggiGame:
         return self._game_state
 
     def is_in_check(self, color):
-        """Returns true if the given player is in check, this method will iterate through all of the opposing
-        players active pieces and see if the generals location on the board is a valid move for any pieces"""
+        """Returns true if the given player is in check, this method will iterate through all of the opposing players
+        active pieces get_active_pieces(color) and see if the generals location on the board is a valid move for any
+        pieces, will return either True or False """
+
         pass
 
     def make_move(self, start_pos, dest_pos):
-        """Moves the piece at the specified position to the destination position if allowed"""
+        """Moves the piece at the specified position to the destination position if allowed will return True or False"""
 
         alpha_to_num = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7, "i": 8}
 
@@ -43,12 +45,19 @@ class JanggiGame:
 
         piece_to_move = self._game_board.get_piece(start_x, start_y)
 
-        if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is True:      # TODO - add to this....
+        if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is True and \
+                self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is True:
             self._game_board.set_board(piece_to_move, dest_x, dest_y)
             self._game_board.set_board(0, start_x, start_y)
             return True
         else:
             return False
+
+    def is_check_mate(self, color):
+        """Determines if one color is in checkmate, will first se if is_in_check() returns true, then will
+        check to see what available moves the general has and if its possible move coordinates are still valid
+        moves for the opposing color, will return True or False"""
+        pass
 
     def print_board(self):
         """prints the current game board"""
@@ -56,7 +65,9 @@ class JanggiGame:
 
 
 class GameBoard:
-    """Represents the gameboard in the Janggi Game"""
+    """Represents the gameboard in the Janggi Game, initializes all of the pieces as piece objects of specific
+    subclasses, needs to communicate with all the Pieces classes in order to read their information and get info
+    about their valid movement patterns"""
 
     def __init__(self):
         rcr1 = Chariot("red", "Chariot")
@@ -103,7 +114,6 @@ class GameBoard:
                        [bcr1, bel1, bh1, bgd1, 0, bgd2, bel2, bh2, bcr2]]
         self._active_red_pieces = [rcr1, rel1, rh1, rgd1, rgd2, rel2, rh2, rcr2, rg, rc1, rc2, rs1, rs2, rs3, rs4, rs5]
         self._active_blue_pieces = [bcr1, bel1, bh1, bgd1, bgd2, bel2, bh2, bcr2, bg, bc1, bc2, bs1, bs2, bs3, bs4, bs5]
-        # Create method to iterate through all opposing active pieces and call valid_move on general location
 
     def board_print(self):
         """Prints out the current state of the game board"""
@@ -120,12 +130,16 @@ class GameBoard:
                 elif pos.get_color() == "blue":
                     print(Fore.BLUE + '{:^8}'.format(pos.get_id()), end=' ')
 
+    def get_active_pieces(self, color):
+        """Will return a list of piece objects that are active of the given color"""
+        pass
+
     def get_piece(self, x_coord, y_coord):
         """Returns the piece object at the given coordinates"""
         return self._board[y_coord][x_coord]
 
     def set_board(self, piece, x_coord, y_coord):
-        """Moves the specified piece to the specified coordinates"""
+        """Moves the specified piece to the specified coordinates, returns nothing"""
         self._board[y_coord][x_coord] = piece
         return
 
@@ -133,11 +147,22 @@ class GameBoard:
         """Returns the game board"""
         return self._board
 
-    # TODO - create a second is_valid method, board_is_valid() to check for other possible hindrances...
+    def board_is_valid(self, start_x, start_y, dest_x, dest_y):
+        """Determines if the piece at starting location is allowed to make the move, returns True or False"""
+        start_piece = self._board[start_y][start_x]
+        dest_piece = self._board[dest_y][dest_x]
+
+        if dest_piece == 0:
+            return True
+        if dest_piece.get_color() == start_piece.get_color():
+            return False
+        else:
+            return True
 
 
 class Piece:
-    """Represents a Janggi Piece"""
+    """Represents a generic Janggi Piece, parameters are color and ID, data member self._active is used for keeping
+    track of active pieces on the board, does not communicate with other classes"""
 
     def __init__(self, color, ID):
         self._color = color
@@ -158,7 +183,7 @@ class Piece:
 
 
 class General(Piece):
-    """"""
+    """Represents a General piece, inherits from Piece class"""
 
     def __init__(self, color, ID):
         super().__init__(color, ID)
@@ -166,11 +191,10 @@ class General(Piece):
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
         pass
-    # TODO - Can use starting position to determine if inside the palace, etc...
 
 
 class Guard(Piece):
-    """"""
+    """Represents a Guard piece, inherits from Piece class"""
 
     def __init__(self, color, ID):
         super().__init__(color, ID)
@@ -181,7 +205,7 @@ class Guard(Piece):
 
 
 class Horse(Piece):
-    """"""
+    """Represents a Horse piece, inherits from Piece class"""
 
     def __init__(self, color, ID):
         super().__init__(color, ID)
@@ -192,7 +216,7 @@ class Horse(Piece):
 
 
 class Elephant(Piece):
-    """"""
+    """Represents an Elephant piece, inherits from Piece class"""
 
     def __init__(self, color, ID):
         super().__init__(color, ID)
@@ -203,7 +227,7 @@ class Elephant(Piece):
 
 
 class Chariot(Piece):
-    """"""
+    """Represents a Chariot piece, inherits from Piece class"""
 
     def __init__(self, color, ID):
         super().__init__(color, ID)
@@ -214,7 +238,7 @@ class Chariot(Piece):
 
 
 class Cannon(Piece):
-    """"""
+    """Represents a Cannon piece, inherits from Piece class"""
 
     def __init__(self, color, ID):
         super().__init__(color, ID)
@@ -225,28 +249,34 @@ class Cannon(Piece):
 
 
 class Soldier(Piece):
-    """"""
+    """Represents a Soldier piece, inherits from Piece class"""
 
     def __init__(self, color, ID):
         super().__init__(color, ID)
 
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
-
-
-game = JanggiGame()
-print("Starting Board")
-game.print_board()
-print("")
-
-game.make_move("e9", "e4")
-print("\nMove Made")
-print("***Updated Board***")
-game.print_board()
-print("")
-
-game.make_move("e7", "e2")
-print("\nMove Made")
-print("***Updated Board***")
-print("")
-game.print_board()
+        if self.get_color() == "blue":
+            if end_y == (start_y + 1):
+                return False
+            elif start_y == (0 or 1 or 2) and start_x == (3 or 4 or 5):  # palace conditions
+                if end_y == (start_y - 1) and (end_x == (start_x + 1) or (start_x - 1)):
+                    return True
+            elif (start_y == end_y) and (end_x == (start_x + 1) or (start_x - 1)):  # Left or right move
+                return True
+            elif end_y == (start_y - 1) and end_x == start_x:  # Forward move
+                return True
+            else:
+                return False
+        elif self.get_color() == "red":
+            if end_y == (start_y - 1):
+                return False
+            elif start_y == (7 or 8 or 9) and start_x == (3 or 4 or 5):  # palace conditions
+                if end_y == (start_y + 1) and (end_x == (start_x + 1) or (start_x - 1)):
+                    return True
+            elif (start_y == end_y) and (end_x == (start_x + 1) or (start_x - 1)):  # Left or right move
+                return True
+            elif end_y == (start_y + 1) and end_x == start_x:  # Forward move
+                return True
+            else:
+                return False

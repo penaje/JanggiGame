@@ -157,7 +157,7 @@ class GameBoard:
         if dest_piece == 0:
             return True
         if dest_piece.get_color() == start_piece.get_color():
-            return True  # TODO change this
+            return False
         else:
             return True
 
@@ -207,16 +207,21 @@ class General(Piece):
                 return False
         elif self.get_color() == "red":
             if end_y == (3 or 4 or 5 or 6 or 7 or 8 or 9):
+                print("false 1")
                 return False
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
+                print("false 2")
                 return False
-            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
                 return True
-            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
             elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
             else:
+                print(start_x, end_x)
+                print(start_y, end_y)
+                print("false 3")
                 return False
 
 
@@ -246,9 +251,9 @@ class Guard(Piece):
                 return False
             elif end_x == (0 or 1 or 2 or 6 or 7 or 8):
                 return False
-            elif (end_y == start_y) and (end_x == ((start_x + 1) or (start_x - 1))):
+            elif (end_y == start_y) and (end_x == (start_x + 1) or (start_x - 1)):
                 return True
-            elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
+            elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
             elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
@@ -334,24 +339,3 @@ class Soldier(Piece):  # TODO - This works
                 return False
 
 
-def main():
-    game = JanggiGame()
-    game.print_board()
-    print("\n\nstarting^^^")
-
-    print(game.make_move("d10", "d9"))
-
-    print(game.make_move("d1", "d2"))
-
-    print(game.make_move("f10", "f9"))
-
-    print(game.make_move("f1", "f2"))
-
-    print(game.make_move("d2", "d3"))
-    game.print_board()
-
-    print(game.make_move("d3", "e2"))
-
-
-if __name__ == 'main':
-    main()

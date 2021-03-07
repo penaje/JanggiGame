@@ -157,7 +157,7 @@ class GameBoard:
         if dest_piece == 0:
             return True
         if dest_piece.get_color() == start_piece.get_color():
-            return False
+            return True     # TODO change this
         else:
             return True
 
@@ -332,3 +332,21 @@ class Soldier(Piece):  # TODO - This works
                 return True
             else:
                 return False
+
+
+game = JanggiGame()
+game.print_board()
+print("\n\nstarting^^^")
+
+print(game.make_move("d10", "d9"))
+
+print(game.make_move("d1", "d2"))
+
+print(game.make_move("f10", "f9"))
+
+print(game.make_move("f1", "f2"))
+
+print(game.make_move("d2", "d3"))
+game.print_board()
+
+print(game.make_move("d3", "e2"))

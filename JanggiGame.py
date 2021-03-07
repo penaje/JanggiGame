@@ -45,6 +45,8 @@ class JanggiGame:
 
         piece_to_move = self._game_board.get_piece(start_x, start_y)
 
+        print("make_move(", start_pos, ",", dest_pos, ")")
+
         if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is True and \
                 self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is True:
             self._game_board.set_board(piece_to_move, dest_x, dest_y)

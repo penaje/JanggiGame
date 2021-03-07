@@ -344,16 +344,3 @@ class Soldier(Piece):  # TODO - This works
                 return False
 
 
-game = JanggiGame()
-game.print_board()
-print("\n\nstarting^^^")
-
-print(game.make_move("e9", "f8"))
-
-print(game.make_move("e2", "f3"))
-
-print(game.make_move("f8", "e8"))
-
-print(game.make_move("f3", "e3"))
-
-game.print_board()

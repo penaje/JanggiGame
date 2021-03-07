@@ -201,9 +201,7 @@ class General(Piece):
                 return True
             elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
-            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
-                return True
-            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
             else:
                 return False
@@ -216,9 +214,7 @@ class General(Piece):
                 return True
             elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
                 return True
-            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
-                return True
-            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
             else:
                 return False
@@ -241,9 +237,7 @@ class Guard(Piece):
                 return True
             elif (end_x == start_x) and (end_y == (start_y + 1) or (start_y - 1)):
                 return True
-            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
-                return True
-            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
             else:
                 return False
@@ -256,9 +250,7 @@ class Guard(Piece):
                 return True
             elif (end_x == start_x) and (end_y == ((start_y + 1) or (start_y - 1))):
                 return True
-            elif (end_y == (start_y + 1) or (start_y - 1)) and (end_x == (start_x + 1) or (start_x - 1)):
-                return True
-            elif (end_x == (start_x + 1) or (start_x - 1)) and (end_y == (start_y + 1) or (start_y - 1)):
+            elif (abs(end_x - start_x)) == 1 and (abs(end_y - start_y) == 1):
                 return True
             else:
                 return False

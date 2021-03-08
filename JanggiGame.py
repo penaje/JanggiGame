@@ -5,6 +5,27 @@
 # from colorama import Fore  # TODO remove color printing before turned in
 
 
+def alpha_translate(start_pos, dest_pos):
+    """translates from alpha to numerical coordinates"""
+    alpha_to_num = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7, "i": 8}
+
+    start_x = int(alpha_to_num.get(start_pos[0]))
+    dest_x = int(alpha_to_num.get(dest_pos[0]))
+    start_y = 0
+    dest_y = 0
+
+    if len(start_pos) == 3:
+        start_y = int(start_pos[1] + start_pos[2]) - 1
+    if len(start_pos) == 2:
+        start_y = int(start_pos[1]) - 1
+    if len(dest_pos) == 3:
+        dest_y = int(dest_pos[1] + dest_pos[2]) - 1
+    if len(dest_pos) == 2:
+        dest_y = int(dest_pos[1]) - 1
+
+    return [start_x, start_y, dest_x, dest_y]
+
+
 class JanggiGame:
     """Represents a Janggi Game and all of its pieces"""
 
@@ -27,21 +48,10 @@ class JanggiGame:
     def make_move(self, start_pos, dest_pos):
         """Moves the piece at the specified position to the destination position if allowed will return True or False"""
 
-        alpha_to_num = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7, "i": 8}
-
-        start_x = int(alpha_to_num.get(start_pos[0]))
-        dest_x = int(alpha_to_num.get(dest_pos[0]))
-        start_y = 0
-        dest_y = 0
-
-        if len(start_pos) == 3:
-            start_y = int(start_pos[1] + start_pos[2]) - 1
-        if len(start_pos) == 2:
-            start_y = int(start_pos[1]) - 1
-        if len(dest_pos) == 3:
-            dest_y = int(dest_pos[1] + dest_pos[2]) - 1
-        if len(dest_pos) == 2:
-            dest_y = int(dest_pos[1]) - 1
+        start_x = alpha_translate(start_pos, dest_pos)[0]
+        dest_x = alpha_translate(start_pos, dest_pos)[2]
+        dest_y = alpha_translate(start_pos, dest_pos)[3]
+        start_y = alpha_translate(start_pos, dest_pos)[1]
 
         piece_to_move = self._game_board.get_piece(start_x, start_y)
 
@@ -67,9 +77,7 @@ class JanggiGame:
 
 
 class GameBoard:
-    """Represents the gameboard in the Janggi Game, initializes all of the pieces as piece objects of specific
-    subclasses, needs to communicate with all the Pieces classes in order to read their information and get info
-    about their valid movement patterns"""
+    """Represents the gameboard in the Janggi Game"""
 
     def __init__(self):
         rcr1 = Chariot("red", "Chariot")
@@ -160,6 +168,7 @@ class GameBoard:
             return False
         else:
             return True
+        #   TODO - Work on this...
 
 
 class Piece:
@@ -380,6 +389,5 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-
 
 

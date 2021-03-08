@@ -2,7 +2,7 @@
 # 3/1/2021
 # This program... #TODO
 
-# from colorama import Fore  # TODO remove color printing before turned in
+from colorama import Fore  # TODO remove color printing before turned in
 
 
 def alpha_translate(start_pos, dest_pos):
@@ -164,19 +164,20 @@ class GameBoard:
         y_offset = (start_y - dest_y)
         x_offset = (start_x - dest_x)
 
-        if dest_piece.get_id() == "Horse":  # Horse conditionals
-            if (x_offset == 2) and (abs(y_offset == 1)):
-                if self._board[start_y][start_x - 1] != 0:
-                    return False
-            if (abs(x_offset == 1)) and (y_offset == 2):
-                if self._board[start_y - 1][start_x] != 0:
-                    return False
-            if (x_offset == (- 2)) and (abs(y_offset == 1)):
-                if self._board[start_y][start_x + 1] != 0:
-                    return False
-            if (abs(x_offset == 1)) and (y_offset == (-2)):
-                if self._board[start_y + 1][start_x] != 0:
-                    return False
+        if dest_piece != 0:
+            if dest_piece.get_id() == "Horse":  # Horse conditionals
+                if (x_offset == 2) and (abs(y_offset == 1)):
+                    if self._board[start_y][start_x - 1] != 0:
+                        return False
+                if (abs(x_offset == 1)) and (y_offset == 2):
+                    if self._board[start_y - 1][start_x] != 0:
+                        return False
+                if (x_offset == (- 2)) and (abs(y_offset == 1)):
+                    if self._board[start_y][start_x + 1] != 0:
+                        return False
+                if (abs(x_offset == 1)) and (y_offset == (-2)):
+                    if self._board[start_y + 1][start_x] != 0:
+                        return False
         if dest_piece == 0:
             return True
         if dest_piece.get_color() == start_piece.get_color():
@@ -404,3 +405,8 @@ class Soldier(Piece):
                 return True
             else:
                 return False
+
+
+game = JanggiGame()
+
+game.make_move("c10", "d8")

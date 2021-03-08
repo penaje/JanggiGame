@@ -289,7 +289,13 @@ class Elephant(Piece):
 
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
-        pass
+        if self.get_id() == "Elephant":
+            if (abs(end_y - start_y) == 3) and (abs(end_x - start_x) == 2):
+                return True
+            elif (abs(end_x - start_x) == 3) and (abs(end_y - start_y) == 2):
+                return True
+            else:
+                return False
 
 
 class Chariot(Piece):
@@ -300,7 +306,21 @@ class Chariot(Piece):
 
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
-        pass
+        y_coords = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        x_coords = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        palace_y = [0, 1, 2, 7, 8, 9]
+        palace_x = [3, 4, 5]
+
+        if self.get_id() == "Chariot":
+            if (end_x == start_x) and (end_y in y_coords):
+                return True
+            if (end_y == start_y) and (end_x in x_coords):
+                return True
+            if ((start_y in palace_y) and (end_y in palace_y)) and ((start_x in palace_x) and (end_x in palace_x)) \
+                    and (abs(start_y - end_y) == abs(start_x - end_x)):  # diagonal okay in Palace
+                return True
+            else:
+                return False
 
 
 class Cannon(Piece):
@@ -311,7 +331,21 @@ class Cannon(Piece):
 
     def valid_move(self, start_x, start_y, end_x, end_y):
         """Returns true if the given destination coordinates are a valid move for this piece type"""
-        pass
+        y_coords = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        x_coords = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        palace_y = [0, 1, 2, 7, 8, 9]
+        palace_x = [3, 4, 5]
+
+        if self.get_id() == "Cannon":
+            if (end_x == start_x) and (end_y in y_coords):
+                return True
+            if (end_y == start_y) and (end_x in x_coords):
+                return True
+            if ((start_y in palace_y) and (end_y in palace_y)) and ((start_x in palace_x) and (end_x in palace_x)) \
+                    and (abs(start_y - end_y) == abs(start_x - end_x)):  # diagonal okay in Palace
+                return True
+            else:
+                return False
 
 
 class Soldier(Piece):

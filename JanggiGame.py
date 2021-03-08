@@ -189,7 +189,6 @@ class GameBoard:
                 print([y_offset, x_offset])
                 return False
 
-
     def get_board(self):
         """Returns the game board"""
         return self._board
@@ -202,18 +201,19 @@ class GameBoard:
         y_offset = (start_y - dest_y)
         x_offset = (start_x - dest_x)
 
-        if dest_piece.get_color() == start_piece.get_color():
-            print("Cannot capture friendly piece")
-            return False
         if start_piece == 0:
             print("must select unit to move")
             return False
+
         if start_piece.get_id() == "Horse":  # Horse conditionals
             print("horse move", self.horse_move(start_x, start_y, dest_x, dest_y))
             return self.horse_move(start_x, start_y, dest_x, dest_y)
         if dest_piece == 0:
             print("true, destination is empty")
             return True
+        if dest_piece.get_color() == start_piece.get_color():
+            print("Cannot capture friendly piece")
+            return False
         else:
             print("true else")
             return True

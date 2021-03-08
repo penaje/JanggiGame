@@ -58,11 +58,14 @@ class JanggiGame:
 
         print("make_move(", start_pos, ",", dest_pos, ")")
 
-        if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is True and \
-                self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is True:
+        if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is False:
+            return False
+        if self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is False:
+            return False
+        else:
+            self._game_board.set_board(piece_to_move, dest_x, dest_y)
+            self._game_board.set_board(0, start_x, start_y)
             return True
-        self._game_board.set_board(piece_to_move, dest_x, dest_y)
-        self._game_board.set_board(0, start_x, start_y)
 
     def is_check_mate(self, color):
         """Determines if one color is in checkmate, will first se if is_in_check() returns true, then will
@@ -405,4 +408,5 @@ class Soldier(Piece):
                 return True
             else:
                 return False
+
 

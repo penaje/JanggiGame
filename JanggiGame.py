@@ -63,6 +63,7 @@ class JanggiGame:
                 self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is True:
             self._game_board.set_board(piece_to_move, dest_x, dest_y)
             self._game_board.set_board(0, start_x, start_y)
+            return True
         else:
             print("\nmove not made\n")
             return False

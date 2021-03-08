@@ -2,7 +2,7 @@
 # 3/1/2021
 # This program... #TODO
 
-from colorama import Fore  # TODO remove color printing before turned in
+# from colorama import Fore  # TODO remove color printing before turned in
 
 
 def alpha_translate(start_pos, dest_pos):
@@ -406,7 +406,3 @@ class Soldier(Piece):
             else:
                 return False
 
-
-game = JanggiGame()
-
-game.make_move("c10", "d8")

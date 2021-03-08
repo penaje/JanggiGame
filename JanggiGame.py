@@ -159,21 +159,12 @@ class GameBoard:
         self._board[y_coord][x_coord] = piece
         return
 
-    def get_board(self):
-        """Returns the game board"""
-        return self._board
-
-    def board_is_valid(self, start_x, start_y, dest_x, dest_y):
-        """Determines if the piece at starting location is allowed to make the move, returns True or False"""
-        start_piece = self._board[start_y][start_x]
-        dest_piece = self._board[dest_y][dest_x]
-
+    def horse_move(self, start_x, start_y, dest_x, dest_y):
+        """validates the move of a horse piece"""
         y_offset = (start_y - dest_y)
         x_offset = (start_x - dest_x)
+        start_piece = self._board[start_y][start_x]
 
-        if start_piece == 0:
-            print("false 1")
-            return False
         if start_piece.get_id() == "Horse":  # Horse conditionals
             if (x_offset == 2) and abs(y_offset) == 1:
                 if self._board[start_y][start_x - 1] == 0:
@@ -197,12 +188,32 @@ class GameBoard:
                 print("false 2")
                 print([y_offset, x_offset])
                 return False
-        if dest_piece == 0:
-            print("true 5")
-            return True
+
+
+    def get_board(self):
+        """Returns the game board"""
+        return self._board
+
+    def board_is_valid(self, start_x, start_y, dest_x, dest_y):
+        """Determines if the piece at starting location is allowed to make the move, returns True or False"""
+        start_piece = self._board[start_y][start_x]
+        dest_piece = self._board[dest_y][dest_x]
+
+        y_offset = (start_y - dest_y)
+        x_offset = (start_x - dest_x)
+
         if dest_piece.get_color() == start_piece.get_color():
-            print("false 3")
+            print("Cannot capture friendly piece")
             return False
+        if start_piece == 0:
+            print("must select unit to move")
+            return False
+        if start_piece.get_id() == "Horse":  # Horse conditionals
+            print("horse move", self.horse_move(start_x, start_y, dest_x, dest_y))
+            return self.horse_move(start_x, start_y, dest_x, dest_y)
+        if dest_piece == 0:
+            print("true, destination is empty")
+            return True
         else:
             print("true else")
             return True

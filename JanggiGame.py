@@ -131,7 +131,7 @@ class GameBoard:
                        [bcr1, bel1, bh1, bgd1, 0, bgd2, bel2, bh2, bcr2]]
         self._active_red_pieces = [rcr1, rel1, rh1, rgd1, rgd2, rel2, rh2, rcr2, rg, rc1, rc2, rs1, rs2, rs3, rs4, rs5]
         self._active_blue_pieces = [bcr1, bel1, bh1, bgd1, bgd2, bel2, bh2, bcr2, bg, bc1, bc2, bs1, bs2, bs3, bs4, bs5]
-        self._turn_count = 0  # TODO add this into make move
+        self._turn_count = 1  # TODO add this into make move
 
     def board_print(self):
         """Prints out the current state of the game board"""
@@ -310,6 +310,8 @@ class GameBoard:
         palace_x = [3, 4, 5]
         palace_y = [0, 1, 2, 7, 8, 9]
         piece_counter = 0
+
+        print(x_offset, y_offset)
 
         if self._turn_count == 0:
             return False
@@ -665,5 +667,4 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-
 

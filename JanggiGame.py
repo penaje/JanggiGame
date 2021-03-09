@@ -33,7 +33,6 @@ class JanggiGame:
         self._turn = "blue"
         self._game_state = 'UNFINISHED'
         self._game_board = GameBoard()
-        self._turn_count = 0
 
     def get_game_state(self):
         """Returns the current game state"""
@@ -59,6 +58,7 @@ class JanggiGame:
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
 
         print("piece = ", piece_to_move)
+
         if piece_to_move == 0:
             print("No Starting Piece Selected")
             return False
@@ -69,6 +69,7 @@ class JanggiGame:
             return True
         else:
             print("\nmove not made\n")
+            print(piece_to_move.valid_move(start_x, start_y, dest_x, dest_y))
             return False
 
     def is_check_mate(self, color):
@@ -130,6 +131,7 @@ class GameBoard:
                        [bcr1, bel1, bh1, bgd1, 0, bgd2, bel2, bh2, bcr2]]
         self._active_red_pieces = [rcr1, rel1, rh1, rgd1, rgd2, rel2, rh2, rcr2, rg, rc1, rc2, rs1, rs2, rs3, rs4, rs5]
         self._active_blue_pieces = [bcr1, bel1, bh1, bgd1, bgd2, bel2, bh2, bcr2, bg, bc1, bc2, bs1, bs2, bs3, bs4, bs5]
+        self._turn_count = 0  # TODO add this into make move
 
     def board_print(self):
         """Prints out the current state of the game board"""
@@ -189,6 +191,223 @@ class GameBoard:
                 print([y_offset, x_offset])
                 return False
 
+    def elephant_move(self, start_x, start_y, dest_x, dest_y):
+        """validates the move of an elephant piece"""
+        y_offset = (start_y - dest_y)
+        x_offset = (start_x - dest_x)
+        start_piece = self._board[start_y][start_x]
+
+        if start_piece.get_id() == "Elephant":
+            if (x_offset == 3) and abs(y_offset) == 2:
+                if (self._board[start_y][start_x - 1] == 0) and (self._board[start_y + 1][start_x - 2] == 0) and \
+                        (self._board[start_y - 1][start_x - 2] == 0):
+                    return True
+
+            if abs(x_offset) == 2 and (y_offset == 3):
+                if (self._board[start_y - 1][start_x] == 0) and (self._board[start_y - 2][start_x - 1] == 0) and \
+                        (self._board[start_y - 2][start_x + 1] == 0):
+                    return True
+
+            if (x_offset == (-3)) and abs(y_offset) == 2:
+                if (self._board[start_y][start_x + 1] == 0) and (self._board[start_y + 1][start_x + 2] == 0) and \
+                        (self._board[start_y - 1][start_x + 2] == 0):
+                    return True
+
+            if abs(x_offset) == 2 and (y_offset == (-3)):
+                if (self._board[start_y - 1][start_x] == 0) and (self._board[start_y - 2][start_x - 1] == 0) and \
+                        (self._board[start_y - 2][start_x + 1] == 0):
+                    return True
+            else:
+                return False
+
+    def chariot_move(self, start_x, start_y, dest_x, dest_y):
+        """Validates move of the chariot"""
+        y_offset = (start_y - dest_y)
+        x_offset = (start_x - dest_x)
+        palace_x = [3, 4, 5]
+        palace_y = [0, 1, 2, 7, 8, 9]
+        start_piece = self._board[start_y][start_x]
+
+        if start_piece.get_id() == "Chariot":
+
+            if y_offset == 0:
+                if (start_x > dest_x) and (abs(x_offset) > 2):  # Moving left
+                    for num in range(dest_x + 1, start_x - 1):
+                        if self._board[start_y][num] != 0:
+                            return False
+
+                if (start_x > dest_x) and (abs(x_offset) <= 2):  # Moving left
+                    if self._board[start_y][start_x - 1] == 0:
+                        return True
+                    else:
+                        return False
+
+                if (start_x < dest_x) and (abs(x_offset) > 2):  # Moving right
+                    for num in range(start_x + 1, dest_x):
+                        print("test 2")
+                        print(self._board[start_y][num])
+                        if self._board[start_y][num] != 0:
+                            return False
+
+                if (start_x < dest_x) and (abs(x_offset) <= 2):  # Moving right
+                    if self._board[start_y][start_x + 1] == 0:
+                        return True
+                    else:
+                        return False
+
+            if x_offset == 0:
+                if (start_y > dest_y) and (abs(y_offset) > 2):  # Moving UP
+                    for index in range((dest_y + 1), start_y):
+                        if self._board[index][start_x] != 0:
+                            return False
+
+                if (start_y > dest_y) and (abs(y_offset) <= 2):  # Moving UP
+                    if self._board[start_y - 1][start_x] == 0:
+                        return True
+                    else:
+                        return False
+
+                if (start_y < dest_y) and (abs(y_offset) > 2):  # Moving Down
+                    for index in range((start_y + 1), dest_y):
+                        if self._board[index][start_x] != 0:
+                            return False
+
+                if (start_y < dest_y) and (abs(y_offset) <= 2):  # Moving Down
+                    if self._board[start_y + 1][start_x] == 0:
+                        return True
+                    else:
+                        return False
+
+            if ((start_x and dest_x) in palace_x) and ((start_y and dest_y) in palace_y):
+
+                if y_offset == 2 and x_offset == 2:
+                    if self._board[start_y - 1][start_x - 1] != 0:
+                        print("false 3")
+                        return False
+
+                if y_offset == (-2) and x_offset == 2:
+                    if self._board[start_y + 1][start_x - 1] != 0:
+                        print("false 4")
+                        return False
+
+                if y_offset == 2 and x_offset == (-2):
+                    if self._board[start_y - 1][start_x + 1] != 0:
+                        print("false 5")
+                        return False
+
+                if y_offset == (-2) and x_offset == (-2):
+                    if self._board[start_y + 1][start_x + 1] != 0:
+                        print("false 6")
+                        return False
+                else:
+                    return True
+
+    def cannon_move(self, start_x, start_y, dest_x, dest_y):
+        """Validates move of the cannon"""
+        y_offset = (start_y - dest_y)
+        x_offset = (start_x - dest_x)
+        start_piece = self._board[start_y][start_x]
+        palace_x = [3, 4, 5]
+        palace_y = [0, 1, 2, 7, 8, 9]
+        piece_counter = 0
+
+        if self._turn_count == 0:
+            return False
+        if start_piece.get_id() == "Cannon":
+
+            if y_offset == 0:
+                if (start_x > dest_x) and (abs(x_offset) > 2):  # Moving left
+                    for num in range(dest_x + 1, start_x - 1):
+                        if self._board[start_y][num] != 0:
+                            piece_counter += 1
+                    if piece_counter == 1:
+                        return True
+                    else:
+                        return False
+
+                if (start_x > dest_x) and (abs(x_offset) == 2):  # Moving left
+                    if self._board[start_y][start_x - 1] != 0:
+                        return True
+                    else:
+                        return False
+
+                if (start_x < dest_x) and (abs(x_offset) > 2):  # Moving right
+                    for num in range(start_x + 1, dest_x):
+                        if self._board[start_y][num] != 0:
+                            piece_counter += 1
+                    if piece_counter == 1:
+                        return True
+                    else:
+                        return False
+
+                if (start_x < dest_x) and (abs(x_offset) == 2):  # Moving right
+                    if self._board[start_y][start_x + 1] != 0:
+                        return True
+                    else:
+                        return False
+
+                if abs(x_offset) == 1:
+                    return False
+
+            if x_offset == 0:
+                if (start_y > dest_y) and (abs(y_offset) > 2):  # Moving UP
+                    for index in range((dest_y + 1), start_y):
+                        if self._board[index][start_x] != 0:
+                            piece_counter += 1
+                    if piece_counter == 1:
+                        return True
+                    else:
+                        return False
+
+                if (start_y > dest_y) and (abs(y_offset) == 2):  # Moving UP
+                    if self._board[start_y - 1][start_x] != 0:
+                        return True
+                    else:
+                        return False
+
+                if (start_y < dest_y) and (abs(y_offset) > 2):  # Moving Down
+                    for index in range((start_y + 1), dest_y):
+                        if self._board[index][start_x] != 0:
+                            piece_counter += 1
+                    if piece_counter == 1:
+                        return True
+                    else:
+                        return False
+
+                if (start_y < dest_y) and (abs(y_offset) == 2):  # Moving Down
+                    if self._board[start_y + 1][start_x] != 0:
+                        return True
+                    else:
+                        return False
+
+                if abs(y_offset) == 1:
+                    return False
+
+            if ((start_x and dest_x) in palace_x) and ((start_y and dest_y) in palace_y):
+
+                if y_offset == 2 and x_offset == 2:
+                    if self._board[start_y - 1][start_x - 1] != 0:
+                        print("false 3")
+                        return True
+
+                if y_offset == (-2) and x_offset == 2:
+                    if self._board[start_y + 1][start_x - 1] != 0:
+                        print("false 4")
+                        return True
+
+                if y_offset == 2 and x_offset == (-2):
+                    if self._board[start_y - 1][start_x + 1] != 0:
+                        print("false 5")
+                        return True
+
+                if y_offset == (-2) and x_offset == (-2):
+                    if self._board[start_y + 1][start_x + 1] != 0:
+                        print("false 6")
+                        return True
+
+                else:
+                    return True
+
     def get_board(self):
         """Returns the game board"""
         return self._board
@@ -198,26 +417,35 @@ class GameBoard:
         start_piece = self._board[start_y][start_x]
         dest_piece = self._board[dest_y][dest_x]
 
-        y_offset = (start_y - dest_y)
-        x_offset = (start_x - dest_x)
-
         if start_piece == 0:
             print("must select unit to move")
             return False
-
         if start_piece.get_id() == "Horse":  # Horse conditionals
-            print("horse move", self.horse_move(start_x, start_y, dest_x, dest_y))
-            return self.horse_move(start_x, start_y, dest_x, dest_y)
+            if self.horse_move(start_x, start_y, dest_x, dest_y) is False:
+                return False
+
+        if start_piece.get_id() == "Elephant":  # Elephant conditionals
+            if self.elephant_move(start_x, start_y, dest_x, dest_y) is False:
+                return False
+
+        if start_piece.get_id() == "Chariot":
+            if self.chariot_move(start_x, start_y, dest_x, dest_y) is False:
+                return False
+
+        if start_piece.get_id() == "Cannon":
+            if self.cannon_move(start_x, start_y, dest_x, dest_y) is False:
+                return False
+
         if dest_piece == 0:
             print("true, destination is empty")
             return True
+
         if dest_piece.get_color() == start_piece.get_color():
             print("Cannot capture friendly piece")
             return False
         else:
-            print("true else")
-            return True
-        #   TODO - Work on this...
+            print("ERROR ERROR")
+            return None
 
 
 class Piece:
@@ -438,6 +666,5 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-
 
 

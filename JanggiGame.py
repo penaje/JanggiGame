@@ -69,7 +69,6 @@ class JanggiGame:
             return True
         else:
             print("\nmove not made\n")
-            print(piece_to_move.valid_move(start_x, start_y, dest_x, dest_y))
             return False
 
     def is_check_mate(self, color):
@@ -197,28 +196,73 @@ class GameBoard:
         x_offset = (start_x - dest_x)
         start_piece = self._board[start_y][start_x]
 
+        print(x_offset, y_offset)
+
         if start_piece.get_id() == "Elephant":
-            if (x_offset == 3) and abs(y_offset) == 2:
-                if (self._board[start_y][start_x - 1] == 0) and (self._board[start_y + 1][start_x - 2] == 0) and \
-                        (self._board[start_y - 1][start_x - 2] == 0):
+
+            if (x_offset == 2) and (y_offset == 3):  # position 1
+                if (self._board[start_y - 1][start_x] == 0) is False:
+                    return False
+                if (self._board[start_y - 2][start_x - 1] == 0) is False:
+                    return False
+                else:
                     return True
 
-            if abs(x_offset) == 2 and (y_offset == 3):
-                if (self._board[start_y - 1][start_x] == 0) and (self._board[start_y - 2][start_x - 1] == 0) and \
-                        (self._board[start_y - 2][start_x + 1] == 0):
+            if (x_offset == 3) and (y_offset == 2):  # position 8
+                if (self._board[start_y - 1][start_x - 2] == 0) is False:
+                    return False
+                if (self._board[start_y][start_x - 1] == 0) is False:
+                    return False
+                else:
                     return True
 
-            if (x_offset == (-3)) and abs(y_offset) == 2:
-                if (self._board[start_y][start_x + 1] == 0) and (self._board[start_y + 1][start_x + 2] == 0) and \
-                        (self._board[start_y - 1][start_x + 2] == 0):
+            if (x_offset == 3) and (y_offset == (-2)):  # position 7
+                if (self._board[start_y][start_x - 1] == 0) is False:
+                    return False
+                if (self._board[start_y + 1][start_x - 2] == 0) is False:
+                    return False
+                else:
                     return True
 
-            if abs(x_offset) == 2 and (y_offset == (-3)):
-                if (self._board[start_y - 1][start_x] == 0) and (self._board[start_y - 2][start_x - 1] == 0) and \
-                        (self._board[start_y - 2][start_x + 1] == 0):
+            if (x_offset == 2) and (y_offset == (-3)):  # position 6
+                if (self._board[start_y + 1][start_x] == 0) is False:
+                    return False
+                if (self._board[start_y + 2][start_x - 1] == 0) is False:
+                    return False
+                else:
                     return True
-            else:
-                return False
+
+            if (x_offset == (-2)) and (y_offset == (-3)):  # position 5
+                if (self._board[start_y + 1][start_x] == 0) is False:
+                    return False
+                if (self._board[start_y + 2][start_x + 1] == 0) is False:
+                    return False
+                else:
+                    return True
+
+            if (x_offset == (-3)) and (y_offset == (-2)):  # position 4
+                if (self._board[start_y][start_x + 1] == 0) is False:
+                    return False
+                if (self._board[start_y + 1][start_x + 2] == 0) is False:
+                    return False
+                else:
+                    return True
+
+            if (x_offset == (-3)) and (y_offset == 2):  # position 3
+                if (self._board[start_y][start_x + 1] == 0) is False:
+                    return False
+                if (self._board[start_y - 1][start_x + 2] == 0) is False:
+                    return False
+                else:
+                    return True
+
+            if (x_offset == (-2)) and (y_offset == 3):  # position 2
+                if (self._board[start_y - 2][start_x + 1] == 0) is False:
+                    return False
+                if (self._board[start_y - 1][start_x] == 0) is False:
+                    return False
+                else:
+                    return True
 
     def chariot_move(self, start_x, start_y, dest_x, dest_y):
         """Validates move of the chariot"""
@@ -667,4 +711,5 @@ class Soldier(Piece):
                 return True
             else:
                 return False
+
 

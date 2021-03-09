@@ -444,8 +444,7 @@ class GameBoard:
             print("Cannot capture friendly piece")
             return False
         else:
-            print("ERROR ERROR")
-            return None
+            return True
 
 
 class Piece:

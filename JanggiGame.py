@@ -61,7 +61,6 @@ class JanggiGame:
         dest_y = alpha_translate(start_pos, dest_pos)[3]
         start_y = alpha_translate(start_pos, dest_pos)[1]
         piece_to_move = self._game_board.get_piece(start_x, start_y)
-        board = self._game_board.get_board()
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
         print(self._game_board.get_turn_count())
@@ -71,12 +70,14 @@ class JanggiGame:
             return False
 
         if self._game_state != "UNFINISHED":
+            print("game won or lost")
             return False
 
         print('turn:', self._turn)
 
         if piece_to_move.get_color() != self._turn:
             print(self._turn, piece_to_move.get_color())
+            print("\n\n")
             return False
 
         if start_pos == dest_pos:
@@ -90,8 +91,10 @@ class JanggiGame:
                 return True
 
         if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is False:
+            print("Not valid pattern for that unit")
             return False
         if self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is False:
+            print("Board will not allow that move")
             return False
 
         else:
@@ -501,14 +504,16 @@ class GameBoard:
 
         if start_piece.get_id() == "Cannon":
             if self.cannon_move(start_x, start_y, dest_x, dest_y) is False:
+                print("cannon move invalid")
                 return False
-
-        if (start_piece.get_id() == "Cannon") and (dest_piece.get_id() == "Cannon"):
-            return False
 
         if dest_piece == 0:
             print("true, destination is empty")
             return True
+
+        if (start_piece.get_id() == "Cannon") and (dest_piece.get_id() == "Cannon"):
+            print("destination is a cannon")
+            return False
 
         if dest_piece.get_color() == start_piece.get_color():
             print("Cannot capture friendly piece")
@@ -744,4 +749,3 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-

@@ -5,6 +5,9 @@
 # from colorama import Fore  # TODO remove color printing before turned in
 
 
+# TODO - cannon cannot hop over another cannon...
+
+
 def alpha_translate(start_pos, dest_pos):
     """translates from alpha to numerical coordinates"""
     alpha_to_num = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7, "i": 8}
@@ -52,27 +55,58 @@ class JanggiGame:
         dest_x = alpha_translate(start_pos, dest_pos)[2]
         dest_y = alpha_translate(start_pos, dest_pos)[3]
         start_y = alpha_translate(start_pos, dest_pos)[1]
-
+        dest_piece = 0
         piece_to_move = self._game_board.get_piece(start_x, start_y)
+        board = self._game_board.get_board()
+
+        if board[dest_y][dest_x] == 0:
+            dest_piece = 0
+        else:
+            dest_piece = self._game_board.get_piece(dest_x, dest_y)
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
 
         if piece_to_move == 0:
             print("No Starting Piece Selected")
             return False
+
+        if self._game_state != "UNFINISHED":
+            return False
+
+        if piece_to_move.get_color() != self._turn:
+            print("Error: Out of turn move requested")
+            return False
+
+        if start_pos == dest_pos:
+            if self._turn == "blue":
+                self._turn = "red"
+                self._game_board.updated_turn_count()
+                return True
+            if self._turn == "red":
+                self._turn = "blue"
+                self._game_board.updated_turn_count()
+                return True
+
         if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is False:
             return False
         if self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is False:
             return False
+
         else:
             self._game_board.set_board(piece_to_move, dest_x, dest_y)
             self._game_board.set_board(0, start_x, start_y)
+            self._game_board.updated_turn_count()
+            if self._turn == "blue":
+                self._turn = "red"
+            if self._turn == "red":
+                self._turn = "blue"
             print("move made")
             return True
 
     def is_check_mate(self, color):
         """Determines if one color is in checkmate, will first se if is_in_check() returns true, then will
-        check to see what available moves the general has and if its possible move coordinates are still valid
+        check to see what available moves the general has(runs check_valid on all squares int he palace
+          abd if they are true will add to list of possible moves) and if its possible move coordinates are still valid
         moves for the opposing color, will return True or False"""
         pass
 
@@ -129,7 +163,7 @@ class GameBoard:
                        [bcr1, bel1, bh1, bgd1, 0, bgd2, bel2, bh2, bcr2]]
         self._active_red_pieces = [rcr1, rel1, rh1, rgd1, rgd2, rel2, rh2, rcr2, rg, rc1, rc2, rs1, rs2, rs3, rs4, rs5]
         self._active_blue_pieces = [bcr1, bel1, bh1, bgd1, bgd2, bel2, bh2, bcr2, bg, bc1, bc2, bs1, bs2, bs3, bs4, bs5]
-        self._turn_count = 1  # TODO add this into make move
+        self._turn_count = 0
 
     def board_print(self):
         """Prints out the current state of the game board"""
@@ -149,6 +183,11 @@ class GameBoard:
     def get_active_pieces(self, color):
         """Will return a list of piece objects that are active of the given color"""
         pass
+
+    def updated_turn_count(self):
+        """Increments the turn count by 1"""
+        self._turn_count += 1
+        return None
 
     def get_piece(self, x_coord, y_coord):
         """Returns the piece object at the given coordinates"""
@@ -462,9 +501,17 @@ class GameBoard:
             print("true, destination is empty")
             return True
 
+        if (start_piece.get_id() == "Cannon") and (dest_piece.get_id() == "Cannon"):
+            return False
+
         if dest_piece.get_color() == start_piece.get_color():
             print("Cannot capture friendly piece")
             return False
+
+        if dest_piece.get_id() == "General":
+            print("cannot kill general")
+            return False
+
         else:
             return True
 
@@ -687,5 +734,3 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-
-

@@ -2,6 +2,7 @@
 # 3/1/2021
 # This program... #TODO
 
+
 # from colorama import Fore  # TODO remove color printing before turned in
 
 
@@ -46,12 +47,43 @@ class JanggiGame:
         self._turn = color
         return None
 
+    def get_general_coord(self, color):
+        """Returns the coordinates of the General of given color"""
+        return self._game_board.get_general_coordinates(color)
+
+    def get_active_objects_coord(self, color):
+        """Returns the coordinates of all active pieces of given color"""
+        for x in self._game_board.get_active_pieces(color):
+            print(self._game_board.get_coord_from_object(x))
+
     def is_in_check(self, color):
         """Returns true if the given player is in check, this method will iterate through all of the opposing players
         active pieces get_active_pieces(color) and see if the generals location on the board is a valid move for any
         pieces, will return either True or False """
 
-        pass
+        general_pos = self._game_board.get_general_coordinates(color)
+        general_x = general_pos[0]
+        general_y = general_pos[1]
+
+        active_pieces = []
+
+        print("general coord:", general_x, general_y)
+
+        if color == "red":
+            active_pieces = self._game_board.get_active_pieces("blue")
+        if color == "blue":
+            active_pieces = self._game_board.get_active_pieces("red")
+
+        for piece in active_pieces:
+            start_x = self._game_board.get_coord_from_object(piece)[0]
+            start_y = self._game_board.get_coord_from_object(piece)[1]
+            print(start_x, start_y)
+            if (piece.valid_move(start_x, start_y, general_x, general_y)) and \
+                    (self._game_board.board_is_valid(start_x, start_y, general_x, general_y)):
+                print("IN CHECK")
+                return True
+        else:
+            return False
 
     def make_move(self, start_pos, dest_pos):
         """Moves the piece at the specified position to the destination position if allowed will return True or False"""
@@ -102,6 +134,10 @@ class JanggiGame:
                 self.set_turn("red")
             if piece_to_move.get_color() == "red":
                 self.set_turn("blue")
+            if self._game_board.get_board()[dest_y][dest_x] != 0:
+                piece_to_remove = self._game_board.get_piece(dest_x, dest_y)
+                color_of_piece = piece_to_remove.get_color()
+                self._game_board.remove_active(color_of_piece, piece_to_remove)
             self._game_board.set_board(piece_to_move, dest_x, dest_y)
             self._game_board.set_board(0, start_x, start_y)
             self._game_board.updated_turn_count()
@@ -113,6 +149,7 @@ class JanggiGame:
         check to see what available moves the general has(runs check_valid on all squares int he palace
           abd if they are true will add to list of possible moves) and if its possible move coordinates are still valid
         moves for the opposing color, will return True or False"""
+
         pass
 
     def print_board(self):
@@ -187,7 +224,36 @@ class GameBoard:
 
     def get_active_pieces(self, color):
         """Will return a list of piece objects that are active of the given color"""
-        pass
+        if color == "red":
+            return self._active_red_pieces
+        if color == "blue":
+            return self._active_blue_pieces
+
+    def get_general_coordinates(self, color):
+        """Returns the coordinates of the General of the selected color"""
+
+        for column, value in enumerate(self._board):
+            for row, val_2 in enumerate(value):
+                if val_2 != 0:
+                    if (val_2.get_id() == "General") and (val_2.get_color() == color):
+                        return [row, column]
+
+    def remove_active(self, color, object):
+        """Removes the given piece from active list"""
+        if color == "red":
+            self._active_red_pieces.remove(object)
+        if color == "blue":
+            self._active_blue_pieces.remove(object)
+
+        return None
+
+    def get_coord_from_object(self, piece):
+        """Returns the coordinates of object given"""
+        for column, value in enumerate(self._board):
+            for row, val_2 in enumerate(value):
+                if val_2 != 0:
+                    if val_2 == piece:
+                        return [row, column]
 
     def updated_turn_count(self):
         """Increments the turn count by 1"""
@@ -521,7 +587,7 @@ class GameBoard:
 
         if dest_piece.get_id() == "General":
             print("cannot kill general")
-            return False
+            return True
 
         if dest_piece == 0:
             print("true, destination is empty")
@@ -749,3 +815,6 @@ class Soldier(Piece):
                 return True
             else:
                 return False
+
+
+

@@ -195,8 +195,6 @@ class JanggiGame:
             if (general.valid_move(start_x, start_y, dest_x, dest_y)) and \
                     (self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y)) is True:
                 locations_to_check.append(location)
-            else:
-                return False
 
         possible_spots = len(locations_to_check)
         counter = 0

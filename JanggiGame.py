@@ -77,7 +77,6 @@ class JanggiGame:
         for piece in active_pieces:
             start_x = self._game_board.get_coord_from_object(piece)[0]
             start_y = self._game_board.get_coord_from_object(piece)[1]
-            print(start_x, start_y)
             if (piece.valid_move(start_x, start_y, general_x, general_y)) and \
                     (self._game_board.board_is_valid(start_x, start_y, general_x, general_y)):
                 print("IN CHECK")
@@ -93,6 +92,8 @@ class JanggiGame:
         dest_y = alpha_translate(start_pos, dest_pos)[3]
         start_y = alpha_translate(start_pos, dest_pos)[1]
         piece_to_move = self._game_board.get_piece(start_x, start_y)
+        desination_piece = self._game_board.get_piece(dest_x, dest_y)
+        starting_color = self._turn
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
         print(self._game_board.get_turn_count())
@@ -108,8 +109,7 @@ class JanggiGame:
         print('turn:', self._turn)
 
         if piece_to_move.get_color() != self._turn:
-            print(self._turn, piece_to_move.get_color())
-            print("\n\n")
+            print("\n")
             return False
 
         if start_pos == dest_pos:
@@ -129,17 +129,34 @@ class JanggiGame:
             print("Board will not allow that move")
             return False
 
+        # Processes the move
         else:
             if piece_to_move.get_color() == "blue":
                 self.set_turn("red")
             if piece_to_move.get_color() == "red":
                 self.set_turn("blue")
+
             if self._game_board.get_board()[dest_y][dest_x] != 0:
                 piece_to_remove = self._game_board.get_piece(dest_x, dest_y)
                 color_of_piece = piece_to_remove.get_color()
                 self._game_board.remove_active(color_of_piece, piece_to_remove)
+
             self._game_board.set_board(piece_to_move, dest_x, dest_y)
             self._game_board.set_board(0, start_x, start_y)
+
+            # Reverses the move if it put the player in check
+
+            if self.is_in_check(starting_color):
+                print("Invalid Move, General In Check!")
+                if self._game_board.get_board()[dest_y][dest_x] != 0:
+                    piece_to_remove = self._game_board.get_piece(dest_x, dest_y)
+                    color_of_piece = piece_to_remove.get_color()
+                    self._game_board.add_active(color_of_piece, piece_to_remove)
+                self._game_board.set_board(desination_piece, dest_x, dest_y)
+                self._game_board.set_board(piece_to_move, start_x, start_y)
+                self._turn = starting_color
+                return False
+
             self._game_board.updated_turn_count()
             print("move made")
             return True
@@ -244,6 +261,15 @@ class GameBoard:
             self._active_red_pieces.remove(object)
         if color == "blue":
             self._active_blue_pieces.remove(object)
+
+        return None
+
+    def add_active(self, color, object):
+        """adds back an active piece"""
+        if color == "red":
+            self._active_red_pieces.append(object)
+        if color == "blue":
+            self._active_blue_pieces.append(object)
 
         return None
 

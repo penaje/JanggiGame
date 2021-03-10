@@ -66,7 +66,6 @@ class JanggiGame:
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
         print(self._game_board.get_turn_count())
 
-
         if piece_to_move == 0:
             print("No Starting Piece Selected")
             return False
@@ -96,11 +95,11 @@ class JanggiGame:
             return False
 
         else:
-            self._game_board.set_board(piece_to_move, dest_x, dest_y)
             if piece_to_move.get_color() == "blue":
                 self.set_turn("red")
             if piece_to_move.get_color() == "red":
                 self.set_turn("blue")
+            self._game_board.set_board(piece_to_move, dest_x, dest_y)
             self._game_board.set_board(0, start_x, start_y)
             self._game_board.updated_turn_count()
             print("move made")

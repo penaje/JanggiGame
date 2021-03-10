@@ -75,7 +75,7 @@ class JanggiGame:
             return False
 
         if piece_to_move.get_color() != self._turn:
-            print("Error: Out of turn move requested")
+            print("Error: It is ", piece_to_move.get_color()), "'s turn and ", self._turn, "tried to move."
             return False
 
         if start_pos == dest_pos:

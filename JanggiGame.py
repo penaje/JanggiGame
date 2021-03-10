@@ -57,19 +57,18 @@ class JanggiGame:
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
 
-        print("piece = ", piece_to_move)
-
         if piece_to_move == 0:
             print("No Starting Piece Selected")
             return False
-        if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is True and \
-                self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is True:
+        if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is False:
+            return False
+        if self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is False:
+            return False
+        else:
             self._game_board.set_board(piece_to_move, dest_x, dest_y)
             self._game_board.set_board(0, start_x, start_y)
+            print("move made")
             return True
-        else:
-            print("\nmove not made\n")
-            return False
 
     def is_check_mate(self, color):
         """Determines if one color is in checkmate, will first se if is_in_check() returns true, then will
@@ -169,25 +168,17 @@ class GameBoard:
         if start_piece.get_id() == "Horse":  # Horse conditionals
             if (x_offset == 2) and abs(y_offset) == 1:
                 if self._board[start_y][start_x - 1] == 0:
-                    print("true 1")
                     return True
             if abs(x_offset) == 1 and (y_offset == 2):
                 if self._board[start_y - 1][start_x] == 0:
-                    print("true 2")
-                    print(x_offset, y_offset)
-                    print(self._board[start_y - 1][start_x])
                     return True
             if (x_offset == (- 2)) and abs(y_offset) == 1:
                 if self._board[start_y][start_x + 1] == 0:
-                    print("true 3")
                     return True
             if abs(x_offset) == 1 and (y_offset == (-2)):
                 if self._board[start_y + 1][start_x] == 0:
-                    print("true 4")
                     return True
             else:
-                print("false 2")
-                print([y_offset, x_offset])
                 return False
 
     def elephant_move(self, start_x, start_y, dest_x, dest_y):
@@ -195,8 +186,6 @@ class GameBoard:
         y_offset = (start_y - dest_y)
         x_offset = (start_x - dest_x)
         start_piece = self._board[start_y][start_x]
-
-        print(x_offset, y_offset)
 
         if start_piece.get_id() == "Elephant":
 
@@ -288,8 +277,6 @@ class GameBoard:
 
                 if (start_x < dest_x) and (abs(x_offset) > 2):  # Moving right
                     for num in range(start_x + 1, dest_x):
-                        print("test 2")
-                        print(self._board[start_y][num])
                         if self._board[start_y][num] != 0:
                             return False
 
@@ -326,22 +313,18 @@ class GameBoard:
 
                 if y_offset == 2 and x_offset == 2:
                     if self._board[start_y - 1][start_x - 1] != 0:
-                        print("false 3")
                         return False
 
                 if y_offset == (-2) and x_offset == 2:
                     if self._board[start_y + 1][start_x - 1] != 0:
-                        print("false 4")
                         return False
 
                 if y_offset == 2 and x_offset == (-2):
                     if self._board[start_y - 1][start_x + 1] != 0:
-                        print("false 5")
                         return False
 
                 if y_offset == (-2) and x_offset == (-2):
                     if self._board[start_y + 1][start_x + 1] != 0:
-                        print("false 6")
                         return False
                 else:
                     return True
@@ -354,8 +337,6 @@ class GameBoard:
         palace_x = [3, 4, 5]
         palace_y = [0, 1, 2, 7, 8, 9]
         piece_counter = 0
-
-        print(x_offset, y_offset)
 
         if self._turn_count == 0:
             return False
@@ -433,24 +414,19 @@ class GameBoard:
 
                 if y_offset == 2 and x_offset == 2:
                     if self._board[start_y - 1][start_x - 1] != 0:
-                        print("false 3")
                         return True
 
                 if y_offset == (-2) and x_offset == 2:
                     if self._board[start_y + 1][start_x - 1] != 0:
-                        print("false 4")
                         return True
 
                 if y_offset == 2 and x_offset == (-2):
                     if self._board[start_y - 1][start_x + 1] != 0:
-                        print("false 5")
                         return True
 
                 if y_offset == (-2) and x_offset == (-2):
                     if self._board[start_y + 1][start_x + 1] != 0:
-                        print("false 6")
                         return True
-
                 else:
                     return True
 

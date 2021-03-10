@@ -75,7 +75,7 @@ class JanggiGame:
             return False
 
         if piece_to_move.get_color() != self._turn:
-            print("Error: ", piece_to_move.get_color()), ":", self._turn)
+            print(self._turn, piece_to_move.get_color())
             return False
 
         if start_pos == dest_pos:

@@ -146,8 +146,15 @@ class JanggiGame:
 
             # Reverses the move if it put the player in check
 
-            if self.is_in_check(starting_color):
+            if self.is_in_check(starting_color) is True:
                 print("Invalid Move, General In Check!")
+                if self.is_check_mate(starting_color) is True:
+                    if starting_color == "red":
+                        self._game_state = "BLUE_WON"
+                    if starting_color == "blue":
+                        self._game_state = "RED_WON"
+                    print("Game Over:", self._game_state)
+                    return False
                 if self._game_board.get_board()[dest_y][dest_x] != 0:
                     piece_to_remove = self._game_board.get_piece(dest_x, dest_y)
                     color_of_piece = piece_to_remove.get_color()
@@ -159,14 +166,6 @@ class JanggiGame:
 
             self._game_board.updated_turn_count()
             print("move made")
-
-            if self.is_check_mate(starting_color) is True:
-                if starting_color == "red":
-                    self._game_state = "BLUE_WON"
-                if starting_color == "blue":
-                    self._game_state = "RED_WON"
-                print("Game Over:", self._game_state)
-                return False
 
             return True
 

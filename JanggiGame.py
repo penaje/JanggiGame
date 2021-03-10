@@ -55,14 +55,8 @@ class JanggiGame:
         dest_x = alpha_translate(start_pos, dest_pos)[2]
         dest_y = alpha_translate(start_pos, dest_pos)[3]
         start_y = alpha_translate(start_pos, dest_pos)[1]
-        dest_piece = 0
         piece_to_move = self._game_board.get_piece(start_x, start_y)
         board = self._game_board.get_board()
-
-        if board[dest_y][dest_x] == 0:
-            dest_piece = 0
-        else:
-            dest_piece = self._game_board.get_piece(dest_x, dest_y)
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
         print(self._game_board.get_turn_count())
@@ -94,13 +88,13 @@ class JanggiGame:
             return False
 
         else:
-            self._game_board.set_board(piece_to_move, dest_x, dest_y)
-            self._game_board.set_board(0, start_x, start_y)
-            self._game_board.updated_turn_count()
             if self._turn == "blue":
                 self._turn = "red"
             if self._turn == "red":
                 self._turn = "blue"
+            self._game_board.set_board(piece_to_move, dest_x, dest_y)
+            self._game_board.set_board(0, start_x, start_y)
+            self._game_board.updated_turn_count()
             print("move made")
             return True
 

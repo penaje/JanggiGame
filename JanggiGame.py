@@ -160,13 +160,13 @@ class JanggiGame:
             self._game_board.updated_turn_count()
             print("move made")
 
-           # if self.is_check_mate(starting_color) is True:
-                # if starting_color == "red":
-                  #  self._game_state = "BLUE_WON"
-                #if starting_color == "blue":
-                 #   self._game_state = "RED_WON"
-                #print("Game Over:", self._game_state)
-                #return False
+            if self.is_check_mate(starting_color) is True:
+                 if starting_color == "red":
+                    self._game_state = "BLUE_WON"
+                if starting_color == "blue":
+                    self._game_state = "RED_WON"
+                print("Game Over:", self._game_state)
+                return False
 
             return True
 
@@ -195,6 +195,8 @@ class JanggiGame:
             if (general.valid_move(start_x, start_y, dest_x, dest_y)) and \
                     (self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y)) is True:
                 locations_to_check.append(location)
+            else:
+                return False
 
         possible_spots = len(locations_to_check)
         counter = 0

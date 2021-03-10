@@ -3,7 +3,7 @@
 # This program... #TODO
 
 
-from colorama import Fore  # TODO remove color printing before turned in
+# from colorama import Fore  # TODO remove color printing before turned in
 
 
 # TODO - cannon cannot hop over another cannon...

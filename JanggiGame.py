@@ -3,7 +3,7 @@
 # This program... #TODO
 
 
-# from colorama import Fore  # TODO remove color printing before turned in
+from colorama import Fore  # TODO remove color printing before turned in
 
 
 # TODO - cannon cannot hop over another cannon...
@@ -159,6 +159,15 @@ class JanggiGame:
 
             self._game_board.updated_turn_count()
             print("move made")
+
+            if self.is_check_mate(starting_color) is True:
+                if starting_color == "red":
+                    self._game_state = "BLUE_WON"
+                if starting_color == "blue":
+                    self._game_state = "RED_WON"
+                print("Game Over:" , self._game_state)
+                return False
+
             return True
 
     def is_check_mate(self, color):
@@ -166,8 +175,47 @@ class JanggiGame:
         check to see what available moves the general has(runs check_valid on all squares int he palace
           abd if they are true will add to list of possible moves) and if its possible move coordinates are still valid
         moves for the opposing color, will return True or False"""
+        general_location = self.get_general_coord(color)
 
-        pass
+        general_x = general_location[0]
+        general_y = general_location[1]
+        general = self._game_board.get_piece(general_x, general_y)
+
+        possible_moves = [[general_x - 1, general_y - 1], [general_x, general_y - 1], [general_x + 1, general_y - 1],
+                          [general_x + 1, general_y], [general_x + 1, general_y + 1],
+                          [general_x, general_y + 1], [general_x - 1, general_y + 1], [general_x - 1, general_y]]
+
+        locations_to_check = []
+
+        for location in possible_moves:
+            dest_x = location[0]
+            dest_y = location[1]
+            start_x = general_x
+            start_y = general_y
+            if (general.valid_move(start_x, start_y, dest_x, dest_y)) and \
+                    (self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y)) is True:
+                locations_to_check.append(location)
+
+        possible_spots = len(locations_to_check)
+        counter = 0
+
+        for spots in locations_to_check:
+            temp_piece = self._game_board.get_piece(spots[0], spots[1])
+            self._game_board.set_board(general, spots[0], spots[1])
+            self._game_board.set_board(0, general_x, general_y)
+            if self.is_in_check(color) is True:
+                counter += 1
+            self._game_board.set_board(general, general_x, general_y)
+            self._game_board.set_board(temp_piece, spots[0], spots[1])
+        if counter == possible_spots:
+            print("CHECK MATE!")
+            return True
+        else:
+            print("Counter = ", counter)
+            print("Possible Moves:", possible_spots)
+            return False
+
+        print(locations_to_check)
 
     def print_board(self):
         """prints the current game board"""
@@ -841,6 +889,5 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-
 
 

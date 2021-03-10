@@ -65,6 +65,7 @@ class JanggiGame:
             dest_piece = self._game_board.get_piece(dest_x, dest_y)
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
+        print(self._game_board.get_turn_count())
 
         if piece_to_move == 0:
             print("No Starting Piece Selected")
@@ -188,6 +189,10 @@ class GameBoard:
         """Increments the turn count by 1"""
         self._turn_count += 1
         return None
+
+    def get_turn_count(self):
+        """Returns the Turn Count"""
+        return self._turn_count
 
     def get_piece(self, x_coord, y_coord):
         """Returns the piece object at the given coordinates"""

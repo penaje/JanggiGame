@@ -506,6 +506,10 @@ class GameBoard:
         if (start_piece.get_id() == "Cannon") and (dest_piece.get_id() == "Cannon"):
             return False
 
+        if dest_piece == 0:
+            print("true, destination is empty")
+            return True
+
         if dest_piece.get_color() == start_piece.get_color():
             print("Cannot capture friendly piece")
             return False
@@ -740,3 +744,4 @@ class Soldier(Piece):
                 return True
             else:
                 return False
+

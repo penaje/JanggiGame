@@ -161,7 +161,7 @@ class JanggiGame:
             print("move made")
 
             if self.is_check_mate(starting_color) is True:
-                 if starting_color == "red":
+                if starting_color == "red":
                     self._game_state = "BLUE_WON"
                 if starting_color == "blue":
                     self._game_state = "RED_WON"

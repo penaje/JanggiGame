@@ -60,6 +60,7 @@ class JanggiGame:
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
         print(self._game_board.get_turn_count())
+        print('turn:', self._turn)
 
         if piece_to_move == 0:
             print("No Starting Piece Selected")

@@ -41,6 +41,11 @@ class JanggiGame:
         """Returns the current game state"""
         return self._game_state
 
+    def set_turn(self, color):
+        """Sets the color of the turn"""
+        self._turn = color
+        return None
+
     def is_in_check(self, color):
         """Returns true if the given player is in check, this method will iterate through all of the opposing players
         active pieces get_active_pieces(color) and see if the generals location on the board is a valid move for any
@@ -60,7 +65,7 @@ class JanggiGame:
 
         print("\nmake_move(", start_pos, ",", dest_pos, ")")
         print(self._game_board.get_turn_count())
-        print('turn:', self._turn)
+
 
         if piece_to_move == 0:
             print("No Starting Piece Selected")
@@ -69,17 +74,19 @@ class JanggiGame:
         if self._game_state != "UNFINISHED":
             return False
 
+        print('turn:', self._turn)
+
         if piece_to_move.get_color() != self._turn:
             print(self._turn, piece_to_move.get_color())
             return False
 
         if start_pos == dest_pos:
             if self._turn == "blue":
-                self._turn = "red"
+                self.set_turn("red")
                 self._game_board.updated_turn_count()
                 return True
             if self._turn == "red":
-                self._turn = "blue"
+                self.set_turn("blue")
                 self._game_board.updated_turn_count()
                 return True
 
@@ -89,11 +96,11 @@ class JanggiGame:
             return False
 
         else:
-            if self._turn == "blue":
-                self._turn = "red"
-            if self._turn == "red":
-                self._turn = "blue"
             self._game_board.set_board(piece_to_move, dest_x, dest_y)
+            if piece_to_move.get_color() == "blue":
+                self.set_turn("red")
+            if piece_to_move.get_color() == "red":
+                self.set_turn("blue")
             self._game_board.set_board(0, start_x, start_y)
             self._game_board.updated_turn_count()
             print("move made")
@@ -497,10 +504,6 @@ class GameBoard:
             if self.cannon_move(start_x, start_y, dest_x, dest_y) is False:
                 return False
 
-        if dest_piece == 0:
-            print("true, destination is empty")
-            return True
-
         if (start_piece.get_id() == "Cannon") and (dest_piece.get_id() == "Cannon"):
             return False
 
@@ -511,6 +514,10 @@ class GameBoard:
         if dest_piece.get_id() == "General":
             print("cannot kill general")
             return False
+
+        if dest_piece == 0:
+            print("true, destination is empty")
+            return True
 
         else:
             return True

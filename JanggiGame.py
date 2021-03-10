@@ -160,13 +160,13 @@ class JanggiGame:
             self._game_board.updated_turn_count()
             print("move made")
 
-            if self.is_check_mate(starting_color) is True:
-                if starting_color == "red":
-                    self._game_state = "BLUE_WON"
-                if starting_color == "blue":
-                    self._game_state = "RED_WON"
-                print("Game Over:" , self._game_state)
-                return False
+           # if self.is_check_mate(starting_color) is True:
+                # if starting_color == "red":
+                  #  self._game_state = "BLUE_WON"
+                #if starting_color == "blue":
+                 #   self._game_state = "RED_WON"
+                #print("Game Over:", self._game_state)
+                #return False
 
             return True
 
@@ -214,8 +214,6 @@ class JanggiGame:
             print("Counter = ", counter)
             print("Possible Moves:", possible_spots)
             return False
-
-        print(locations_to_check)
 
     def print_board(self):
         """prints the current game board"""
@@ -889,5 +887,3 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-
-

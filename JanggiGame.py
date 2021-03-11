@@ -532,6 +532,8 @@ class GameBoard:
                     for num in range(dest_x + 1, start_x - 1):
                         if self._board[start_y][num] != 0:
                             piece_counter += 1
+                            if self._board[start_y][num].get_id() == "Cannon":
+                                return False
                     if piece_counter == 1:
                         return True
                     else:
@@ -539,7 +541,10 @@ class GameBoard:
 
                 if (start_x > dest_x) and (abs(x_offset) == 2):  # Moving left
                     if self._board[start_y][start_x - 1] != 0:
-                        return True
+                        if self._board[start_y][start_x - 1].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
                     else:
                         return False
 
@@ -547,6 +552,8 @@ class GameBoard:
                     for num in range(start_x + 1, dest_x):
                         if self._board[start_y][num] != 0:
                             piece_counter += 1
+                            if self._board[start_y][num].get_id() == "Cannon":
+                                return False
                     if piece_counter == 1:
                         return True
                     else:
@@ -554,7 +561,10 @@ class GameBoard:
 
                 if (start_x < dest_x) and (abs(x_offset) == 2):  # Moving right
                     if self._board[start_y][start_x + 1] != 0:
-                        return True
+                        if self._board[start_y][start_x + 1].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
                     else:
                         return False
 
@@ -566,6 +576,8 @@ class GameBoard:
                     for index in range((dest_y + 1), start_y):
                         if self._board[index][start_x] != 0:
                             piece_counter += 1
+                            if self._board[index][start_x].get_id() == "Cannon":
+                                return False
                     if piece_counter == 1:
                         return True
                     else:
@@ -573,7 +585,10 @@ class GameBoard:
 
                 if (start_y > dest_y) and (abs(y_offset) == 2):  # Moving UP
                     if self._board[start_y - 1][start_x] != 0:
-                        return True
+                        if self._board[start_y - 1][start_x].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
                     else:
                         return False
 
@@ -581,6 +596,8 @@ class GameBoard:
                     for index in range((start_y + 1), dest_y):
                         if self._board[index][start_x] != 0:
                             piece_counter += 1
+                            if self._board[index][start_x].get_id() == "Cannon":
+                                return False
                     if piece_counter == 1:
                         return True
                     else:
@@ -588,7 +605,10 @@ class GameBoard:
 
                 if (start_y < dest_y) and (abs(y_offset) == 2):  # Moving Down
                     if self._board[start_y + 1][start_x] != 0:
-                        return True
+                        if self._board[start_y + 1][start_x].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
                     else:
                         return False
 
@@ -599,19 +619,31 @@ class GameBoard:
 
                 if y_offset == 2 and x_offset == 2:
                     if self._board[start_y - 1][start_x - 1] != 0:
-                        return True
+                        if self._board[start_y - 1][start_x - 1].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
 
                 if y_offset == (-2) and x_offset == 2:
                     if self._board[start_y + 1][start_x - 1] != 0:
-                        return True
+                        if self._board[start_y + 1][start_x - 1].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
 
                 if y_offset == 2 and x_offset == (-2):
                     if self._board[start_y - 1][start_x + 1] != 0:
-                        return True
+                        if self._board[start_y - 1][start_x + 1].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
 
                 if y_offset == (-2) and x_offset == (-2):
                     if self._board[start_y + 1][start_x + 1] != 0:
-                        return True
+                        if self._board[start_y + 1][start_x + 1].get_id() == "Cannon":
+                            return False
+                        else:
+                            return True
                 else:
                     return True
 

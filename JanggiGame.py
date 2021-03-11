@@ -148,13 +148,6 @@ class JanggiGame:
 
             if self.is_in_check(starting_color) is True:
                 print("Invalid Move, General In Check!")
-                if self.is_check_mate(starting_color) is True:
-                    if starting_color == "red":
-                        self._game_state = "BLUE_WON"
-                    if starting_color == "blue":
-                        self._game_state = "RED_WON"
-                    print("Game Over:", self._game_state)
-                    return False
                 if self._game_board.get_board()[dest_y][dest_x] != 0:
                     piece_to_remove = self._game_board.get_piece(dest_x, dest_y)
                     color_of_piece = piece_to_remove.get_color()
@@ -162,6 +155,13 @@ class JanggiGame:
                 self._game_board.set_board(desination_piece, dest_x, dest_y)
                 self._game_board.set_board(piece_to_move, start_x, start_y)
                 self._turn = starting_color
+                if self.is_check_mate(starting_color) is True:  # TODO - Call after pieces moved back??
+                    if starting_color == "red":
+                        self._game_state = "BLUE_WON"
+                    if starting_color == "blue":
+                        self._game_state = "RED_WON"
+                    print("Game Over:", self._game_state)
+                    return False
                 return False
 
             self._game_board.updated_turn_count()
@@ -886,3 +886,5 @@ class Soldier(Piece):
                 return True
             else:
                 return False
+
+

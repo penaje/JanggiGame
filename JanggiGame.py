@@ -637,7 +637,6 @@ class GameBoard:
         dest_piece = self._board[dest_y][dest_x]
 
         if start_piece == 0:
-            print("must select unit to move")
             return False
         if start_piece.get_id() == "Horse":  # Horse conditionals
             if self.horse_move(start_x, start_y, dest_x, dest_y) is False:
@@ -653,29 +652,22 @@ class GameBoard:
 
         if start_piece.get_id() == "Cannon":
             if self.cannon_move(start_x, start_y, dest_x, dest_y) is False:
-                print("cannon move invalid")
                 return False
 
         if dest_piece == 0:
-            print("true, destination is empty")
             return True
 
         if (start_piece.get_id() == "Cannon") and (dest_piece.get_id() == "Cannon"):
-            print("destination is a cannon")
             return False
 
         if dest_piece.get_color() == start_piece.get_color():
-            print("Cannot capture friendly piece")
             return False
 
         if dest_piece.get_id() == "General":
-            print("cannot kill general")
             return True
 
         if dest_piece == 0:
-            print("true, destination is empty")
             return True
-
         else:
             return True
 

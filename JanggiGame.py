@@ -1,5 +1,5 @@
 # Jeremy Pena
-# 3/1/2021
+# 3/11/2021
 # This program simulates a Janggi Game between two players. It contains all the necessary classes and functions to
 # run a fully functional Janggi Game simulation.
 

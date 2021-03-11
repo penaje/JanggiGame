@@ -1,12 +1,10 @@
 # Jeremy Pena
 # 3/1/2021
-# This program... #TODO
+# This program simulates a Janggi Game between two players. It contains all the necessary classes and functions to
+# run a fully functional Janggi Game simulation.
 
 
-# from colorama import Fore  # TODO remove color printing before turned in
-
-
-# TODO - cannon cannot hop over another cannon...
+# from colorama import Fore
 
 
 def alpha_translate(start_pos, dest_pos):
@@ -67,8 +65,6 @@ class JanggiGame:
 
         active_pieces = []
 
-        print("general coord:", general_x, general_y)
-
         if color == "red":
             active_pieces = self._game_board.get_active_pieces("blue")
         if color == "blue":
@@ -79,7 +75,6 @@ class JanggiGame:
             start_y = self._game_board.get_coord_from_object(piece)[1]
             if (piece.valid_move(start_x, start_y, general_x, general_y)) and \
                     (self._game_board.board_is_valid(start_x, start_y, general_x, general_y)):
-                print("IN CHECK")
                 return True
         else:
             return False
@@ -95,21 +90,13 @@ class JanggiGame:
         desination_piece = self._game_board.get_piece(dest_x, dest_y)
         starting_color = self._turn
 
-        print("\nmake_move(", start_pos, ",", dest_pos, ")")
-        print(self._game_board.get_turn_count())
-
         if piece_to_move == 0:
-            print("No Starting Piece Selected")
             return False
 
         if self._game_state != "UNFINISHED":
-            print("game won or lost")
             return False
 
-        print('turn:', self._turn)
-
         if piece_to_move.get_color() != self._turn:
-            print("\n")
             return False
 
         if start_pos == dest_pos:
@@ -123,10 +110,8 @@ class JanggiGame:
                 return True
 
         if piece_to_move.valid_move(start_x, start_y, dest_x, dest_y) is False:
-            print("Not valid pattern for that unit")
             return False
         if self._game_board.board_is_valid(start_x, start_y, dest_x, dest_y) is False:
-            print("Board will not allow that move")
             return False
 
         # Processes the move
@@ -147,7 +132,6 @@ class JanggiGame:
             # Reverses the move if it put the player in check
 
             if self.is_in_check(starting_color) is True:
-                print("Invalid Move, General In Check!")
                 if self._game_board.get_board()[dest_y][dest_x] != 0:
                     piece_to_remove = self._game_board.get_piece(dest_x, dest_y)
                     color_of_piece = piece_to_remove.get_color()
@@ -155,7 +139,7 @@ class JanggiGame:
                 self._game_board.set_board(desination_piece, dest_x, dest_y)
                 self._game_board.set_board(piece_to_move, start_x, start_y)
                 self._turn = starting_color
-                if self.is_check_mate(starting_color) is True:  # TODO - Call after pieces moved back??
+                if self.is_check_mate(starting_color) is True:
                     if starting_color == "red":
                         self._game_state = "BLUE_WON"
                     if starting_color == "blue":
@@ -165,7 +149,6 @@ class JanggiGame:
                 return False
 
             self._game_board.updated_turn_count()
-            print("move made")
 
             return True
 
@@ -207,11 +190,8 @@ class JanggiGame:
             self._game_board.set_board(general, general_x, general_y)
             self._game_board.set_board(temp_piece, spots[0], spots[1])
         if counter == possible_spots:
-            print("CHECK MATE!")
             return True
         else:
-            print("Counter = ", counter)
-            print("Possible Moves:", possible_spots)
             return False
 
     def print_board(self):
@@ -918,5 +898,3 @@ class Soldier(Piece):
                 return True
             else:
                 return False
-
-

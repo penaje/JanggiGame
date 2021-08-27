@@ -3,8 +3,7 @@
 # This program simulates a Janggi Game between two players. It contains all the necessary classes and functions to
 # run a fully functional Janggi Game simulation.
 
-
-# from colorama import Fore
+from colorama import Fore
 
 
 def alpha_translate(start_pos, dest_pos):
